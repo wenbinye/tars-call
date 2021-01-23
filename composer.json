@@ -1,0 +1,35 @@
+{
+    "name": "wenbinye/tars-call",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ye Wenbin",
+            "email": "wenbinye@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require": {
+        "php": "^7.2",
+        "ext-json": "*",
+        "wenbinye/tars": "^0.1"
+    },
+    "require-dev": {
+        "roave/security-advisories": "dev-master",
+        "wenbinye/tars-gen": "^0.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "wenbinye\\tars\\call\\": "src/"
+        }
+    },
+    "scripts": {
+        "gen": "./vendor/bin/tars-gen"
+    },
+    "extra": {
+        "kuiper": {
+            "config-file": "src/container.php"
+        }
+    }
+}
