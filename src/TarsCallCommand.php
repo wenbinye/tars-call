@@ -6,6 +6,7 @@ namespace wenbinye\tars\call;
 
 use kuiper\di\ComponentCollection;
 use kuiper\di\ContainerBuilder;
+use kuiper\helper\Text;
 use kuiper\serializer\DocReaderInterface;
 use kuiper\serializer\NormalizerInterface;
 use Psr\Container\ContainerInterface;
@@ -19,10 +20,10 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use wenbinye\tars\protocol\annotation\TarsClient as TarsClientAnnotation;
 use wenbinye\tars\rpc\route\ChainRouteResolver;
 use wenbinye\tars\rpc\route\InMemoryRouteResolver;
-use wenbinye\tars\rpc\route\RegistryRouteResolver;
 use wenbinye\tars\rpc\route\Route;
 use wenbinye\tars\rpc\TarsClient;
 use wenbinye\tars\server\framework\servant\HealthCheckServant;
+use function kuiper\helper\env;
 
 class TarsCallCommand extends Command
 {
@@ -58,7 +59,7 @@ class TarsCallCommand extends Command
         $container = ContainerBuilder::create(__DIR__ . '/..')->build();
 
         if ($input->getOption("data")) {
-            $data = json_decode(file_get_contents($input->getOption("data")), true);
+            $data = $this->getDataParams($input->getOption('data'));
             $this->doCall($container, $data);
         } else {
             $servant = $input->getArgument("server");
@@ -105,7 +106,7 @@ class TarsCallCommand extends Command
 
     private function doCall(ContainerInterface $container, array $data): void
     {
-        [$registryHost, $registryPort] = explode(":", $this->input->getOption("registry") ?? '127.0.0.1:17890');
+        [$registryHost, $registryPort] = explode(":", $this->getRegistryAddress());
 
         $servantName = $data['servant'];
         $parts = explode('.', $servantName);
@@ -113,7 +114,7 @@ class TarsCallCommand extends Command
             throw new \InvalidArgumentException("servant '$servantName' 不正确，必须是 app.server.servantObj 形式");
         }
         $routes = [];
-        $address = $this->input->getOption("address");
+        $address = $this->input->getOption("address") ?? $data['server_addr'] ?? null;
         if ($address) {
             [$host, $port] = explode(":", $address);
             $routes = [
@@ -149,5 +150,38 @@ class TarsCallCommand extends Command
         }
         $ret = call_user_func_array([$service, $method->getName()], $params);
         echo json_encode($ret, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT);
+    }
+
+    private function getRegistryAddress(): string
+    {
+        $registry = $this->input->getOption("registry");
+        if (Text::isEmpty($registry)) {
+            return env('TARS_REGISTRY', '127.0.0.1:17890');
+        }
+        return $registry;
+    }
+
+    /**
+     * @param string $input
+     * @return mixed
+     */
+    protected function getDataParams(string $input)
+    {
+        if (file_exists($input)) {
+            $input = file_get_contents($input);
+        }
+        $data = json_decode($input, true);
+        if ($data === null) {
+            throw new \InvalidArgumentException("json 解析错误");
+        }
+        if (isset($data['extra']['params'])) {
+            $params = json_decode(str_replace("'", '"',
+                str_replace("\\'", '\\"', $data['extra']['params'])), true);
+            if ($params === null) {
+                throw new \InvalidArgumentException("extra.params 解析错误");
+            }
+            $data['params'] = $params;
+        }
+        return $data;
     }
 }
