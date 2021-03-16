@@ -21,6 +21,7 @@ use wenbinye\tars\protocol\annotation\TarsClient as TarsClientAnnotation;
 use wenbinye\tars\rpc\route\ChainRouteResolver;
 use wenbinye\tars\rpc\route\InMemoryRouteResolver;
 use wenbinye\tars\rpc\route\Route;
+use wenbinye\tars\rpc\RpcExecutor;
 use wenbinye\tars\rpc\TarsClient;
 use wenbinye\tars\server\framework\servant\HealthCheckServant;
 use function kuiper\helper\env;
@@ -148,7 +149,15 @@ class TarsCallCommand extends Command
         foreach ($docReader->getParameterTypes($method) as $i => $type) {
             $params[] = $normalizer->denormalize($data['params'][$i], $type);
         }
-        $ret = call_user_func_array([$service, $method->getName()], $params);
+        if (isset($data['request_status'])) {
+            /** @var RpcExecutor $executor */
+            $executor = $service->createExecutor($method->getName());
+            $ret = $executor
+                ->withStatus($data['request_status'])
+                ->execute(...$params);
+        } else {
+            $ret = call_user_func_array([$service, $method->getName()], $params);
+        }
         echo json_encode($ret, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT);
     }
 
