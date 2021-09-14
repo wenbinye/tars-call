@@ -11,13 +11,13 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
-        "php": "^7.2",
+        "php": ">=7.2",
         "ext-json": "*",
-        "wenbinye/tars": "^0.1"
+        "kuiper/tars": "^0.6"
     },
     "require-dev": {
         "roave/security-advisories": "dev-master",
-        "wenbinye/tars-gen": "^0.3"
+        "wenbinye/tars-gen": "^0.4"
     },
     "autoload": {
         "psr-4": {

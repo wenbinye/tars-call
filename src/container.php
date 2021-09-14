@@ -9,6 +9,16 @@ return [
         "wenbinye\\tars\\call"
     ],
     "configuration" => [
-
+        'kuiper\\annotations\\AnnotationConfiguration',
+        'kuiper\\event\\EventConfiguration',
+        'kuiper\\logger\\LoggerConfiguration',
+        'kuiper\\reflection\\ReflectionConfiguration',
+        'kuiper\\resilience\\ResilienceConfiguration',
+        'kuiper\\serializer\\SerializerConfiguration',
+        'kuiper\\swoole\\config\\FoundationConfiguration',
+        'kuiper\\swoole\\config\\GuzzleHttpMessageFactoryConfiguration',
+        'kuiper\\swoole\\config\\DiactorosHttpMessageFactoryConfiguration',
+        'kuiper\\tars\\config\\TarsClientConfiguration',
+        'kuiper\\cache\\CacheConfiguration',
     ]
 ];

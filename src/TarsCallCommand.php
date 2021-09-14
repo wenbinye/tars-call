@@ -7,8 +7,19 @@ namespace wenbinye\tars\call;
 use kuiper\di\ComponentCollection;
 use kuiper\di\ContainerBuilder;
 use kuiper\helper\Text;
-use kuiper\serializer\DocReaderInterface;
+use kuiper\reflection\ReflectionDocBlockFactoryInterface;
+use kuiper\reflection\ReflectionMethodDocBlockInterface;
+use kuiper\rpc\client\RpcExecutor;
+use kuiper\rpc\MiddlewareInterface;
+use kuiper\rpc\RpcRequestHandlerInterface;
+use kuiper\rpc\RpcRequestInterface;
+use kuiper\rpc\RpcResponseInterface;
 use kuiper\serializer\NormalizerInterface;
+use kuiper\swoole\Application;
+use kuiper\tars\annotation\TarsClient;
+use kuiper\tars\client\TarsProxyFactory;
+use kuiper\tars\client\TarsRequest;
+use kuiper\tars\server\servant\AdminServant;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -17,13 +28,6 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\StyleInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use wenbinye\tars\protocol\annotation\TarsClient as TarsClientAnnotation;
-use wenbinye\tars\rpc\route\ChainRouteResolver;
-use wenbinye\tars\rpc\route\InMemoryRouteResolver;
-use wenbinye\tars\rpc\route\Route;
-use wenbinye\tars\rpc\RpcExecutor;
-use wenbinye\tars\rpc\TarsClient;
-use wenbinye\tars\server\framework\servant\HealthCheckServant;
 use function kuiper\helper\env;
 
 class TarsCallCommand extends Command
@@ -57,7 +61,7 @@ class TarsCallCommand extends Command
             $this->doHealthCheck($input->getArgument("server"));
             return 0;
         }
-        $container = ContainerBuilder::create(__DIR__ . '/..')->build();
+        $container = Application::create()->getContainer();
 
         if ($input->getOption("data")) {
             $data = $this->getDataParams($input->getOption('data'));
@@ -68,7 +72,7 @@ class TarsCallCommand extends Command
             $params = json_decode($input->getArgument('params'), true);
             $data = [
                 'servant' => substr($servant, 0, $pos),
-                'method' => substr($servant, $pos+1),
+                'method' => substr($servant, $pos + 1),
                 'params' => $params
             ];
             $this->doCall($container, $data);
@@ -84,13 +88,12 @@ class TarsCallCommand extends Command
         }
         $address = $this->input->getOption("address");
         [$host, $port] = explode(":", $address);
-        $servantName = $server . ".HealthCheckObj";
-        /** @var HealthCheckServant $service */
-        $service = TarsClient::builder()
-            ->setRouteResolver(new InMemoryRouteResolver([
-                Route::fromString($servantName . "@tcp -h $host -p $port")
-            ]))
-            ->createProxy(HealthCheckServant::class, $servantName);
+        $servantName = $server . ".AdminObj";
+        /** @var AdminServant $service */
+        $service = TarsProxyFactory::createDefault($servantName . "@tcp -h $host -p $port")
+            ->create(AdminServant::class, [
+                'service' => $servantName
+            ]);
         $start = microtime(true);
         try {
             $ret = $service->ping();
@@ -107,67 +110,67 @@ class TarsCallCommand extends Command
 
     private function doCall(ContainerInterface $container, array $data): void
     {
-        [$registryHost, $registryPort] = explode(":", $this->getRegistryAddress());
-
-        $servantName = $data['servant'];
+        $servantName = $data['servant'] ?? $data['service'];
         $parts = explode('.', $servantName);
         if (count($parts) !== 3) {
             throw new \InvalidArgumentException("servant '$servantName' 不正确，必须是 app.server.servantObj 形式");
         }
-        $routes = [];
+        $routes = [$this->getRegistryAddress()];
         $address = $this->input->getOption("address") ?? $data['server_addr'] ?? null;
         if ($address) {
             [$host, $port] = explode(":", $address);
-            $routes = [
-                Route::fromString($servantName . "@tcp -h $host -p $port")
-            ];
+            $routes[] = $servantName . "@tcp -h $host -p $port";
         }
         $servantClass = null;
-        foreach (ComponentCollection::getAnnotations(TarsClientAnnotation::class) as $annotation) {
-            /** @var TarsClientAnnotation $annotation */
-            if ($annotation->name === $servantName) {
-                $servantClass = $annotation->getTarget()->getName();
+        foreach (ComponentCollection::getAnnotations(TarsClient::class) as $annotation) {
+            /** @var TarsClient $annotation */
+            if ($annotation->service === $servantName) {
+                $servantClass = $annotation->getTargetClass();
                 break;
             }
         }
         if (!$servantClass) {
             throw new \InvalidArgumentException("Cannot find $servantName");
         }
-        $builder = TarsClient::builder()
-            ->setLocator(Route::fromString("tars.tarsregistry.QueryObj@tcp -h $registryHost -p $registryPort"));
-        if (!empty($routes)) {
-            $builder->setRouteResolver(new ChainRouteResolver([
-                new InMemoryRouteResolver($routes),
-                $builder->getRouteResolver()
-            ]));
-        }
-        $service = $builder->createProxy($servantClass, $servantName);
+        $service = TarsProxyFactory::createDefault(...$routes)
+            ->create($servantClass);
         $normalizer = $container->get(NormalizerInterface::class);
-        $docReader = $container->get(DocReaderInterface::class);
-        $method = new \ReflectionMethod($servantClass, $data['method']);
+        /** @var ReflectionMethodDocBlockInterface $docReader */
+        $docReader = $container->get(ReflectionDocBlockFactoryInterface::class)
+            ->createMethodDocBlock(new \ReflectionMethod($servantClass, $data['method']));
         $params = [];
-        foreach ($docReader->getParameterTypes($method) as $i => $type) {
-            $params[] = $normalizer->denormalize($data['params'][$i], $type);
+        $paramNames = array_keys($docReader->getParameterTypes());
+        foreach (array_values($docReader->getParameterTypes()) as $i => $type) {
+            $params[] = $normalizer->denormalize($data['params'][$i] ?? $data['params'][$paramNames[$i]], $type);
         }
         if (isset($data['request_status'])) {
-            /** @var RpcExecutor $executor */
-            $executor = $service->createExecutor($method->getName());
-            $ret = $executor
-                ->withStatus($data['request_status'])
-                ->execute(...$params);
+            $executor = RpcExecutor::create($service, $data['method'], $params);
+            $middleware = new class implements MiddlewareInterface {
+                public $status;
+
+                public function process(RpcRequestInterface $request, RpcRequestHandlerInterface $handler): RpcResponseInterface
+                {
+                    /** @var TarsRequest $request */
+                    $request->setStatus($this->status);
+                    return $handler->handle($request);
+                }
+            };
+            $middleware->status = $data['request_status'];
+            $ret = $executor->addMiddleware($middleware)->execute();
         } else {
-            $ret = call_user_func_array([$service, $method->getName()], $params);
+            $ret = call_user_func_array([$service, $data['method']], $params);
         }
-        echo json_encode($ret, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT);
+        echo json_encode($ret, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
     }
 
     private function getRegistryAddress(): string
     {
         $registry = $this->input->getOption("registry");
         if (Text::isEmpty($registry)) {
-            return env('TARS_REGISTRY', '127.0.0.1:17890');
+            $registry = env('TARS_REGISTRY', '127.0.0.1:17890');
         }
-        return $registry;
+        [$host, $port]  = explode(':',  $registry);
+        return "tars.tarsregistry.QueryObj@tcp -h $host -p $port";
     }
 
     /**
