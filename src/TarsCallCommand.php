@@ -143,19 +143,24 @@ class TarsCallCommand extends Command
         foreach (array_values($docReader->getParameterTypes()) as $i => $type) {
             $params[] = $normalizer->denormalize($data['params'][$i] ?? $data['params'][$paramNames[$i]], $type);
         }
-        if (isset($data['request_status'])) {
+        if (isset($data['request_status']) || isset($data['request_context'])) {
             $executor = RpcExecutor::create($service, $data['method'], $params);
             $middleware = new class implements MiddlewareInterface {
-                public $status;
+                public $data;
 
                 public function process(RpcRequestInterface $request, RpcRequestHandlerInterface $handler): RpcResponseInterface
                 {
                     /** @var TarsRequest $request */
-                    $request->setStatus($this->status);
+                    if (isset($this->data['request_context'])) {
+                        $request->setContext($this->data['request_context']);
+                    }
+                    if (isset($this->data['request_status'])) {
+                        $request->setStatus($this->data['request_status']);
+                    }
                     return $handler->handle($request);
                 }
             };
-            $middleware->status = $data['request_status'];
+            $middleware->data = $data;
             $ret = $executor->addMiddleware($middleware)->execute();
         } else {
             $ret = call_user_func_array([$service, $data['method']], $params);
