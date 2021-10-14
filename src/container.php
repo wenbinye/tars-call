@@ -5,6 +5,7 @@
  
 return [
     "component_scan" => [
+        "kuiper\\tars\\integration",
         "wenbinye\\tars\\client",
         "wenbinye\\tars\\call"
     ],

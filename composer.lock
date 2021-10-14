@@ -172,16 +172,16 @@
         },
         {
             "name": "guzzlehttp/psr7",
-            "version": "2.0.0",
+            "version": "2.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/psr7.git",
-                "reference": "1dc8d9cba3897165e16d12bb13d813afb1eb3fe7"
+                "reference": "089edd38f5b8abba6cb01567c2a8aaa47cec4c72"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/psr7/zipball/1dc8d9cba3897165e16d12bb13d813afb1eb3fe7",
-                "reference": "1dc8d9cba3897165e16d12bb13d813afb1eb3fe7",
+                "url": "https://api.github.com/repos/guzzle/psr7/zipball/089edd38f5b8abba6cb01567c2a8aaa47cec4c72",
+                "reference": "089edd38f5b8abba6cb01567c2a8aaa47cec4c72",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -211,7 +211,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.0-dev"
+                    "dev-master": "2.1-dev"
                 }
             },
             "autoload": {
@@ -225,12 +225,33 @@
             ],
             "authors": [
                 {
+                    "name": "Graham Campbell",
+                    "email": "hello@gjcampbell.co.uk",
+                    "homepage": "https://github.com/GrahamCampbell"
+                },
+                {
                     "name": "Michael Dowling",
                     "email": "mtdowling@gmail.com",
                     "homepage": "https://github.com/mtdowling"
                 },
                 {
+                    "name": "George Mponos",
+                    "email": "gmponos@gmail.com",
+                    "homepage": "https://github.com/gmponos"
+                },
+                {
+                    "name": "Tobias Nyholm",
+                    "email": "tobias.nyholm@gmail.com",
+                    "homepage": "https://github.com/Nyholm"
+                },
+                {
+                    "name": "Márk Sági-Kazár",
+                    "email": "mark.sagikazar@gmail.com",
+                    "homepage": "https://github.com/sagikazarmark"
+                },
+                {
                     "name": "Tobias Schultze",
+                    "email": "webmaster@tubo-world.de",
                     "homepage": "https://github.com/Tobion"
                 },
                 {
@@ -252,22 +273,36 @@
             ],
             "support": {
                 "issues": "https://github.com/guzzle/psr7/issues",
-                "source": "https://github.com/guzzle/psr7/tree/2.0.0"
+                "source": "https://github.com/guzzle/psr7/tree/2.1.0"
             },
-            "time": "2021-06-30T20:03:07+00:00"
+            "funding": [
+                {
+                    "url": "https://github.com/GrahamCampbell",
+                    "type": "github"
+                },
+                {
+                    "url": "https://github.com/Nyholm",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/guzzlehttp/psr7",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2021-10-06T17:43:30+00:00"
         },
         {
             "name": "kuiper/annotations",
-            "version": "v0.6.x-dev",
+            "version": "v0.6.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/wenbinye/kuiper-annotations.git",
-                "reference": "e518d6a927644b968be45344d414d78da4ee7e36"
+                "url": "https://github.com/kuiper-framework/annotations.git",
+                "reference": "fcea07175119eaa968507c7623895928f6d0f711"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wenbinye/kuiper-annotations/zipball/e518d6a927644b968be45344d414d78da4ee7e36",
-                "reference": "e518d6a927644b968be45344d414d78da4ee7e36",
+                "url": "https://api.github.com/repos/kuiper-framework/annotations/zipball/fcea07175119eaa968507c7623895928f6d0f711",
+                "reference": "fcea07175119eaa968507c7623895928f6d0f711",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -308,23 +343,23 @@
                 "annotations"
             ],
             "support": {
-                "issues": "https://github.com/wenbinye/kuiper-annotations/issues",
-                "source": "https://github.com/wenbinye/kuiper-annotations/tree/v0.6"
+                "issues": "https://github.com/kuiper-framework/annotations/issues",
+                "source": "https://github.com/kuiper-framework/annotations/tree/v0.6.0"
             },
-            "time": "2021-09-12T13:55:04+00:00"
+            "time": "2021-09-16T11:17:07+00:00"
         },
         {
             "name": "kuiper/cache",
-            "version": "v0.6.x-dev",
+            "version": "v0.6.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/wenbinye/kuiper-cache.git",
-                "reference": "55ae436f9d4875be5444557e15b3ec919ee5c66c"
+                "url": "https://github.com/kuiper-framework/cache.git",
+                "reference": "d81dfd080f5a46274af79e45ef1f5681f823215d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wenbinye/kuiper-cache/zipball/55ae436f9d4875be5444557e15b3ec919ee5c66c",
-                "reference": "55ae436f9d4875be5444557e15b3ec919ee5c66c",
+                "url": "https://api.github.com/repos/kuiper-framework/cache/zipball/d81dfd080f5a46274af79e45ef1f5681f823215d",
+                "reference": "d81dfd080f5a46274af79e45ef1f5681f823215d",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -341,7 +376,6 @@
             "require-dev": {
                 "symfony/cache": "^5.1"
             },
-            "default-branch": true,
             "type": "library",
             "extra": {
                 "kuiper": {
@@ -371,23 +405,23 @@
                 "redis"
             ],
             "support": {
-                "issues": "https://github.com/wenbinye/kuiper-cache/issues",
-                "source": "https://github.com/wenbinye/kuiper-cache/tree/v0.6"
+                "issues": "https://github.com/kuiper-framework/cache/issues",
+                "source": "https://github.com/kuiper-framework/cache/tree/v0.6.0"
             },
-            "time": "2021-09-14T07:24:18+00:00"
+            "time": "2021-09-16T11:17:07+00:00"
         },
         {
             "name": "kuiper/di",
-            "version": "v0.6.x-dev",
+            "version": "v0.6.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/wenbinye/kuiper-di.git",
-                "reference": "c67bc577853bf39aa5193c5a576a6be9bd0a028d"
+                "url": "https://github.com/kuiper-framework/di.git",
+                "reference": "0a1ed6591b6316ffc1e5dd15266b3722e0c65051"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wenbinye/kuiper-di/zipball/c67bc577853bf39aa5193c5a576a6be9bd0a028d",
-                "reference": "c67bc577853bf39aa5193c5a576a6be9bd0a028d",
+                "url": "https://api.github.com/repos/kuiper-framework/di/zipball/0a1ed6591b6316ffc1e5dd15266b3722e0c65051",
+                "reference": "0a1ed6591b6316ffc1e5dd15266b3722e0c65051",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -421,23 +455,23 @@
             ],
             "description": "PHP-DI extra feature",
             "support": {
-                "issues": "https://github.com/wenbinye/kuiper-di/issues",
-                "source": "https://github.com/wenbinye/kuiper-di/tree/v0.6"
+                "issues": "https://github.com/kuiper-framework/di/issues",
+                "source": "https://github.com/kuiper-framework/di/tree/v0.6.0"
             },
-            "time": "2021-09-14T06:49:28+00:00"
+            "time": "2021-09-17T02:34:51+00:00"
         },
         {
             "name": "kuiper/event",
-            "version": "v0.6.x-dev",
+            "version": "v0.6.6",
             "source": {
                 "type": "git",
-                "url": "https://github.com/wenbinye/kuiper-event.git",
-                "reference": "36a49d47a8d7bf39c9c138e4a0bceaf21e7fd302"
+                "url": "https://github.com/kuiper-framework/event.git",
+                "reference": "cbc1511d38752a5c6d4676e7eee201edd587e496"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wenbinye/kuiper-event/zipball/36a49d47a8d7bf39c9c138e4a0bceaf21e7fd302",
-                "reference": "36a49d47a8d7bf39c9c138e4a0bceaf21e7fd302",
+                "url": "https://api.github.com/repos/kuiper-framework/event/zipball/cbc1511d38752a5c6d4676e7eee201edd587e496",
+                "reference": "cbc1511d38752a5c6d4676e7eee201edd587e496",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -475,23 +509,23 @@
             ],
             "description": "event helper",
             "support": {
-                "issues": "https://github.com/wenbinye/kuiper-event/issues",
-                "source": "https://github.com/wenbinye/kuiper-event/tree/v0.6"
+                "issues": "https://github.com/kuiper-framework/event/issues",
+                "source": "https://github.com/kuiper-framework/event/tree/v0.6.6"
             },
-            "time": "2021-09-13T12:03:42+00:00"
+            "time": "2021-09-28T07:04:04+00:00"
         },
         {
             "name": "kuiper/helper",
-            "version": "v0.6.x-dev",
+            "version": "v0.6.6",
             "source": {
                 "type": "git",
-                "url": "https://github.com/wenbinye/kuiper-helper.git",
-                "reference": "51ee38f3b9668308d89bc2c4eb77c5fd51b5b6fd"
+                "url": "https://github.com/kuiper-framework/helper.git",
+                "reference": "e7a1b5f2e48cf3f3c7764698eb036c51496cc144"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wenbinye/kuiper-helper/zipball/51ee38f3b9668308d89bc2c4eb77c5fd51b5b6fd",
-                "reference": "51ee38f3b9668308d89bc2c4eb77c5fd51b5b6fd",
+                "url": "https://api.github.com/repos/kuiper-framework/helper/zipball/e7a1b5f2e48cf3f3c7764698eb036c51496cc144",
+                "reference": "e7a1b5f2e48cf3f3c7764698eb036c51496cc144",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -501,7 +535,7 @@
                 ]
             },
             "require": {
-                "php": "^7.0"
+                "php": ">=7.2.5"
             },
             "suggest": {
                 "symfony/yaml": "For load and dump yaml"
@@ -532,23 +566,23 @@
                 "enum"
             ],
             "support": {
-                "issues": "https://github.com/wenbinye/kuiper-helper/issues",
-                "source": "https://github.com/wenbinye/kuiper-helper/tree/v0.6"
+                "issues": "https://github.com/kuiper-framework/helper/issues",
+                "source": "https://github.com/kuiper-framework/helper/tree/v0.6.6"
             },
-            "time": "2021-09-12T12:42:44+00:00"
+            "time": "2021-10-14T07:05:54+00:00"
         },
         {
             "name": "kuiper/logger",
-            "version": "v0.6.x-dev",
+            "version": "v0.6.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/wenbinye/kuiper-logger.git",
-                "reference": "dd571f44b0d54788302fb4afdf46b5a3088a3e88"
+                "url": "https://github.com/kuiper-framework/logger.git",
+                "reference": "eab5d0897ed96fa72f2430db2cb9c6d5fc8c9fc8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wenbinye/kuiper-logger/zipball/dd571f44b0d54788302fb4afdf46b5a3088a3e88",
-                "reference": "dd571f44b0d54788302fb4afdf46b5a3088a3e88",
+                "url": "https://api.github.com/repos/kuiper-framework/logger/zipball/eab5d0897ed96fa72f2430db2cb9c6d5fc8c9fc8",
+                "reference": "eab5d0897ed96fa72f2430db2cb9c6d5fc8c9fc8",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -561,7 +595,6 @@
                 "monolog/monolog": "^2.0",
                 "php": ">=7.2.5"
             },
-            "default-branch": true,
             "type": "library",
             "extra": {
                 "kuiper": {
@@ -576,6 +609,9 @@
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
             "authors": [
                 {
                     "name": "Ye Wenbin",
@@ -588,23 +624,23 @@
                 "pdo"
             ],
             "support": {
-                "issues": "https://github.com/wenbinye/kuiper-logger/issues",
-                "source": "https://github.com/wenbinye/kuiper-logger/tree/v0.6"
+                "issues": "https://github.com/kuiper-framework/logger/issues",
+                "source": "https://github.com/kuiper-framework/logger/tree/v0.6.0"
             },
-            "time": "2021-09-12T14:42:55+00:00"
+            "time": "2021-09-16T11:17:07+00:00"
         },
         {
             "name": "kuiper/reflection",
-            "version": "v0.6.x-dev",
+            "version": "v0.6.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/wenbinye/kuiper-reflection.git",
-                "reference": "afaca01f752b98f724e8482da594fda08f1a9775"
+                "url": "https://github.com/kuiper-framework/reflection.git",
+                "reference": "99282596caf81a7a64f515b38d0bbacabee3068b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wenbinye/kuiper-reflection/zipball/afaca01f752b98f724e8482da594fda08f1a9775",
-                "reference": "afaca01f752b98f724e8482da594fda08f1a9775",
+                "url": "https://api.github.com/repos/kuiper-framework/reflection/zipball/99282596caf81a7a64f515b38d0bbacabee3068b",
+                "reference": "99282596caf81a7a64f515b38d0bbacabee3068b",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -645,23 +681,23 @@
                 "reflection"
             ],
             "support": {
-                "issues": "https://github.com/wenbinye/kuiper-reflection/issues",
-                "source": "https://github.com/wenbinye/kuiper-reflection/tree/v0.6"
+                "issues": "https://github.com/kuiper-framework/reflection/issues",
+                "source": "https://github.com/kuiper-framework/reflection/tree/v0.6.0"
             },
-            "time": "2021-09-13T03:42:21+00:00"
+            "time": "2021-09-16T11:17:07+00:00"
         },
         {
             "name": "kuiper/resilience",
-            "version": "v0.6.x-dev",
+            "version": "v0.6.4",
             "source": {
                 "type": "git",
-                "url": "https://github.com/wenbinye/kuiper-resilience.git",
-                "reference": "1e27670963c64c187f2499fb9bf94753a2049f75"
+                "url": "https://github.com/kuiper-framework/resilience.git",
+                "reference": "cea9b8ed1dba65d78c75c7ab85dcf296d1dc5f33"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wenbinye/kuiper-resilience/zipball/1e27670963c64c187f2499fb9bf94753a2049f75",
-                "reference": "1e27670963c64c187f2499fb9bf94753a2049f75",
+                "url": "https://api.github.com/repos/kuiper-framework/resilience/zipball/cea9b8ed1dba65d78c75c7ab85dcf296d1dc5f33",
+                "reference": "cea9b8ed1dba65d78c75c7ab85dcf296d1dc5f33",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -674,7 +710,6 @@
                 "kuiper/helper": "^0.6",
                 "php": ">=7.2.5"
             },
-            "default-branch": true,
             "type": "library",
             "extra": {
                 "kuiper": {
@@ -703,23 +738,23 @@
                 "framework"
             ],
             "support": {
-                "issues": "https://github.com/wenbinye/kuiper-resilience/issues",
-                "source": "https://github.com/wenbinye/kuiper-resilience/tree/v0.6"
+                "issues": "https://github.com/kuiper-framework/resilience/issues",
+                "source": "https://github.com/kuiper-framework/resilience/tree/v0.6.4"
             },
-            "time": "2021-09-12T13:55:04+00:00"
+            "time": "2021-09-26T08:43:35+00:00"
         },
         {
             "name": "kuiper/rpc",
-            "version": "v0.6.x-dev",
+            "version": "v0.6.6",
             "source": {
                 "type": "git",
-                "url": "https://github.com/wenbinye/kuiper-rpc.git",
-                "reference": "4fb7e1794933bc48e93e66faf3b429068f9364eb"
+                "url": "https://github.com/kuiper-framework/rpc.git",
+                "reference": "64037c335670499f8e2c46aeda5bb507517a92a8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wenbinye/kuiper-rpc/zipball/4fb7e1794933bc48e93e66faf3b429068f9364eb",
-                "reference": "4fb7e1794933bc48e93e66faf3b429068f9364eb",
+                "url": "https://api.github.com/repos/kuiper-framework/rpc/zipball/64037c335670499f8e2c46aeda5bb507517a92a8",
+                "reference": "64037c335670499f8e2c46aeda5bb507517a92a8",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -736,7 +771,6 @@
                 "laminas/laminas-code": "^3.4",
                 "php": ">=7.2.5"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -758,23 +792,23 @@
                 "framework"
             ],
             "support": {
-                "issues": "https://github.com/wenbinye/kuiper-rpc/issues",
-                "source": "https://github.com/wenbinye/kuiper-rpc/tree/v0.6"
+                "issues": "https://github.com/kuiper-framework/rpc/issues",
+                "source": "https://github.com/kuiper-framework/rpc/tree/v0.6.6"
             },
-            "time": "2021-09-14T02:42:59+00:00"
+            "time": "2021-10-14T07:05:54+00:00"
         },
         {
             "name": "kuiper/serializer",
-            "version": "v0.6.x-dev",
+            "version": "v0.6.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/wenbinye/kuiper-serializer.git",
-                "reference": "c96f690f88062ac3a7a42979568ca8654d4908e6"
+                "url": "https://github.com/kuiper-framework/serializer.git",
+                "reference": "3a423e747c757e19144398060de0b115d519335e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wenbinye/kuiper-serializer/zipball/c96f690f88062ac3a7a42979568ca8654d4908e6",
-                "reference": "c96f690f88062ac3a7a42979568ca8654d4908e6",
+                "url": "https://api.github.com/repos/kuiper-framework/serializer/zipball/3a423e747c757e19144398060de0b115d519335e",
+                "reference": "3a423e747c757e19144398060de0b115d519335e",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -790,7 +824,6 @@
                 "kuiper/reflection": "^0.6",
                 "php": ">=7.2.5"
             },
-            "default-branch": true,
             "type": "library",
             "extra": {
                 "kuiper": {
@@ -816,23 +849,23 @@
             ],
             "description": "serializer component",
             "support": {
-                "issues": "https://github.com/wenbinye/kuiper-serializer/issues",
-                "source": "https://github.com/wenbinye/kuiper-serializer/tree/v0.6"
+                "issues": "https://github.com/kuiper-framework/serializer/issues",
+                "source": "https://github.com/kuiper-framework/serializer/tree/v0.6.1"
             },
-            "time": "2021-09-12T13:55:04+00:00"
+            "time": "2021-09-24T07:04:16+00:00"
         },
         {
             "name": "kuiper/swoole",
-            "version": "v0.6.x-dev",
+            "version": "v0.6.6",
             "source": {
                 "type": "git",
-                "url": "https://github.com/wenbinye/kuiper-swoole.git",
-                "reference": "a7e9bc765e5169761654d136d947644674eebad9"
+                "url": "https://github.com/kuiper-framework/swoole.git",
+                "reference": "bf8ea27964d122f77185a056cc89dc686775042a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wenbinye/kuiper-swoole/zipball/a7e9bc765e5169761654d136d947644674eebad9",
-                "reference": "a7e9bc765e5169761654d136d947644674eebad9",
+                "url": "https://api.github.com/repos/kuiper-framework/swoole/zipball/bf8ea27964d122f77185a056cc89dc686775042a",
+                "reference": "bf8ea27964d122f77185a056cc89dc686775042a",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -880,23 +913,23 @@
             ],
             "description": "Swoole server util",
             "support": {
-                "issues": "https://github.com/wenbinye/kuiper-swoole/issues",
-                "source": "https://github.com/wenbinye/kuiper-swoole/tree/v0.6"
+                "issues": "https://github.com/kuiper-framework/swoole/issues",
+                "source": "https://github.com/kuiper-framework/swoole/tree/v0.6.6"
             },
-            "time": "2021-09-14T02:42:59+00:00"
+            "time": "2021-10-14T07:05:54+00:00"
         },
         {
             "name": "kuiper/tars",
-            "version": "v0.6.x-dev",
+            "version": "v0.6.5",
             "source": {
                 "type": "git",
-                "url": "https://github.com/wenbinye/kuiper-tars.git",
-                "reference": "3463862824a28e17b581d0453b9636387144b15e"
+                "url": "https://github.com/kuiper-framework/tars.git",
+                "reference": "83adca3c911c0e2a8405b06adce5f9fef307cab3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wenbinye/kuiper-tars/zipball/3463862824a28e17b581d0453b9636387144b15e",
-                "reference": "3463862824a28e17b581d0453b9636387144b15e",
+                "url": "https://api.github.com/repos/kuiper-framework/tars/zipball/83adca3c911c0e2a8405b06adce5f9fef307cab3",
+                "reference": "83adca3c911c0e2a8405b06adce5f9fef307cab3",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -911,7 +944,6 @@
                 "php": ">=7.2.5",
                 "symfony/validator": "^5.3"
             },
-            "default-branch": true,
             "type": "library",
             "extra": {
                 "kuiper": {
@@ -940,10 +972,10 @@
                 "framework"
             ],
             "support": {
-                "issues": "https://github.com/wenbinye/kuiper-tars/issues",
-                "source": "https://github.com/wenbinye/kuiper-tars/tree/v0.6"
+                "issues": "https://github.com/kuiper-framework/tars/issues",
+                "source": "https://github.com/kuiper-framework/tars/tree/v0.6.5"
             },
-            "time": "2021-09-14T06:09:27+00:00"
+            "time": "2021-09-26T09:45:54+00:00"
         },
         {
             "name": "laminas/laminas-code",
@@ -1160,16 +1192,16 @@
         },
         {
             "name": "monolog/monolog",
-            "version": "2.3.2",
+            "version": "2.3.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "71312564759a7db5b789296369c1a264efc43aad"
+                "reference": "fd4380d6fc37626e2f799f29d91195040137eba9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/71312564759a7db5b789296369c1a264efc43aad",
-                "reference": "71312564759a7db5b789296369c1a264efc43aad",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/fd4380d6fc37626e2f799f29d91195040137eba9",
+                "reference": "fd4380d6fc37626e2f799f29d91195040137eba9",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -1180,10 +1212,10 @@
             },
             "require": {
                 "php": ">=7.2",
-                "psr/log": "^1.0.1"
+                "psr/log": "^1.0.1 || ^2.0 || ^3.0"
             },
             "provide": {
-                "psr/log-implementation": "1.0.0"
+                "psr/log-implementation": "1.0.0 || 2.0.0 || 3.0.0"
             },
             "require-dev": {
                 "aws/aws-sdk-php": "^2.4.9 || ^3.0",
@@ -1191,14 +1223,14 @@
                 "elasticsearch/elasticsearch": "^7",
                 "graylog2/gelf-php": "^1.4.2",
                 "mongodb/mongodb": "^1.8",
-                "php-amqplib/php-amqplib": "~2.4",
+                "php-amqplib/php-amqplib": "~2.4 || ^3",
                 "php-console/php-console": "^3.1.3",
                 "phpspec/prophecy": "^1.6.1",
                 "phpstan/phpstan": "^0.12.91",
                 "phpunit/phpunit": "^8.5",
                 "predis/predis": "^1.1",
                 "rollbar/rollbar": "^1.3",
-                "ruflin/elastica": ">=0.90 <7.0.1",
+                "ruflin/elastica": ">=0.90@dev",
                 "swiftmailer/swiftmailer": "^5.3|^6.0"
             },
             "suggest": {
@@ -1206,8 +1238,11 @@
                 "doctrine/couchdb": "Allow sending log messages to a CouchDB server",
                 "elasticsearch/elasticsearch": "Allow sending log messages to an Elasticsearch server via official client",
                 "ext-amqp": "Allow sending log messages to an AMQP server (1.0+ required)",
+                "ext-curl": "Required to send log messages using the IFTTTHandler, the LogglyHandler, the SendGridHandler, the SlackWebhookHandler or the TelegramBotHandler",
                 "ext-mbstring": "Allow to work properly with unicode symbols",
                 "ext-mongodb": "Allow sending log messages to a MongoDB server (via driver)",
+                "ext-openssl": "Required to send log messages using SSL",
+                "ext-sockets": "Allow sending log messages to a Syslog server (via UDP driver)",
                 "graylog2/gelf-php": "Allow sending log messages to a GrayLog2 server",
                 "mongodb/mongodb": "Allow sending log messages to a MongoDB server (via library)",
                 "php-amqplib/php-amqplib": "Allow sending log messages to an AMQP server using php-amqplib",
@@ -1246,7 +1281,7 @@
             ],
             "support": {
                 "issues": "https://github.com/Seldaek/monolog/issues",
-                "source": "https://github.com/Seldaek/monolog/tree/2.3.2"
+                "source": "https://github.com/Seldaek/monolog/tree/2.3.5"
             },
             "funding": [
                 {
@@ -1258,7 +1293,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-07-23T07:42:52+00:00"
+            "time": "2021-10-01T21:08:31+00:00"
         },
         {
             "name": "opis/closure",
@@ -3161,16 +3196,16 @@
         },
         {
             "name": "symfony/validator",
-            "version": "v5.3.7",
+            "version": "v5.3.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/validator.git",
-                "reference": "916a7c6cf3ede36eb0e4097500e0a12dcff520a7"
+                "reference": "3a773f6f03ef2846c280e4f5b5f34cf950ead127"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/validator/zipball/916a7c6cf3ede36eb0e4097500e0a12dcff520a7",
-                "reference": "916a7c6cf3ede36eb0e4097500e0a12dcff520a7",
+                "url": "https://api.github.com/repos/symfony/validator/zipball/3a773f6f03ef2846c280e4f5b5f34cf950ead127",
+                "reference": "3a773f6f03ef2846c280e4f5b5f34cf950ead127",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -3257,7 +3292,7 @@
             "description": "Provides tools to validate values",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/validator/tree/v5.3.7"
+                "source": "https://github.com/symfony/validator/tree/v5.3.8"
             },
             "funding": [
                 {
@@ -3273,7 +3308,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-08-26T08:22:53+00:00"
+            "time": "2021-09-21T20:52:44+00:00"
         },
         {
             "name": "tedivm/stash",
@@ -3480,12 +3515,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Roave/SecurityAdvisories.git",
-                "reference": "8cebf1673eccd7e6552732142039c147c1023214"
+                "reference": "0488e161600117fc3a0d72397dad154729002f54"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/8cebf1673eccd7e6552732142039c147c1023214",
-                "reference": "8cebf1673eccd7e6552732142039c147c1023214",
+                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/0488e161600117fc3a0d72397dad154729002f54",
+                "reference": "0488e161600117fc3a0d72397dad154729002f54",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -3560,11 +3595,11 @@
                 "ezsystems/ez-support-tools": ">=2.2,<2.2.3",
                 "ezsystems/ezdemo-ls-extension": ">=5.4,<5.4.2.1",
                 "ezsystems/ezfind-ls": ">=5.3,<5.3.6.1|>=5.4,<5.4.11.1|>=2017.12,<2017.12.0.1",
-                "ezsystems/ezplatform": ">=1.7,<1.7.9.1|>=1.13,<1.13.5.1|>=2.5,<2.5.4",
+                "ezsystems/ezplatform": "<=1.13.6|>=2,<=2.5.24",
                 "ezsystems/ezplatform-admin-ui": ">=1.3,<1.3.5|>=1.4,<1.4.6",
                 "ezsystems/ezplatform-admin-ui-assets": ">=4,<4.2.1|>=5,<5.0.1|>=5.1,<5.1.1",
                 "ezsystems/ezplatform-kernel": "<=1.2.5|>=1.3,<=1.3.1",
-                "ezsystems/ezplatform-rest": ">=1.2,<=1.2.2|>=1.3,<=1.3.1",
+                "ezsystems/ezplatform-rest": ">=1.2,<=1.2.2|>=1.3,<1.3.8",
                 "ezsystems/ezplatform-user": ">=1,<1.0.1",
                 "ezsystems/ezpublish-kernel": "<=6.13.8.1|>=7,<=7.5.15.1",
                 "ezsystems/ezpublish-legacy": "<=2017.12.7.3|>=2018.6,<=2019.3.5.1",
@@ -3589,15 +3624,17 @@
                 "friendsoftypo3/mediace": ">=7.6.2,<7.6.5",
                 "froala/wysiwyg-editor": "<3.2.7",
                 "fuel/core": "<1.8.1",
-                "getgrav/grav": "<=1.7.10",
+                "getgrav/grav": "<1.7.21",
                 "getkirby/cms": "<=3.5.6",
                 "getkirby/panel": "<2.5.14",
+                "gilacms/gila": "<=1.11.4",
                 "gos/web-socket-bundle": "<1.10.4|>=2,<2.6.1|>=3,<3.3",
                 "gree/jose": "<=2.2",
                 "gregwar/rst": "<1.0.3",
-                "grumpydictator/firefly-iii": "<5.6",
+                "grumpydictator/firefly-iii": "<5.6.1",
                 "guzzlehttp/guzzle": ">=4-rc.2,<4.2.4|>=5,<5.3.1|>=6,<6.2.1",
                 "helloxz/imgurl": "<=2.31",
+                "ibexa/post-install": "<=1.0.4",
                 "icecoder/icecoder": "<=8",
                 "illuminate/auth": ">=4,<4.0.99|>=4.1,<=4.1.31|>=4.2,<=4.2.22|>=5,<=5.0.35|>=5.1,<=5.1.46|>=5.2,<=5.2.45|>=5.3,<=5.3.31|>=5.4,<=5.4.36|>=5.5,<5.5.10",
                 "illuminate/cookie": ">=4,<=4.0.11|>=4.1,<=4.1.99999|>=4.2,<=4.2.99999|>=5,<=5.0.99999|>=5.1,<=5.1.99999|>=5.2,<=5.2.99999|>=5.3,<=5.3.99999|>=5.4,<=5.4.99999|>=5.5,<=5.5.49|>=5.6,<=5.6.99999|>=5.7,<=5.7.99999|>=5.8,<=5.8.99999|>=6,<6.18.31|>=7,<7.22.4",
@@ -3621,6 +3658,7 @@
                 "laravel/framework": "<6.20.26|>=7,<8.40",
                 "laravel/socialite": ">=1,<1.0.99|>=2,<2.0.10",
                 "lavalite/cms": "<=5.8",
+                "lcobucci/jwt": ">=3.4,<3.4.6|>=4,<4.0.4|>=4.1,<4.1.5",
                 "league/commonmark": "<0.18.3",
                 "league/flysystem": "<1.1.4|>=2,<2.1.1",
                 "lexik/jwt-authentication-bundle": "<2.10.7|>=2.11,<2.11.3",
@@ -3682,7 +3720,7 @@
                 "phpunit/phpunit": ">=4.8.19,<4.8.28|>=5.0.10,<5.6.3",
                 "phpwhois/phpwhois": "<=4.2.5",
                 "phpxmlrpc/extras": "<0.6.1",
-                "pimcore/pimcore": "<10.1.1",
+                "pimcore/pimcore": "<10.1.3",
                 "pocketmine/pocketmine-mp": "<3.15.4",
                 "pressbooks/pressbooks": "<5.18",
                 "prestashop/autoupgrade": ">=4,<4.10.1",
@@ -3747,6 +3785,7 @@
                 "symbiote/silverstripe-multivaluefield": ">=3,<3.0.99",
                 "symbiote/silverstripe-queuedjobs": ">=3,<3.0.2|>=3.1,<3.1.4|>=4,<4.0.7|>=4.1,<4.1.2|>=4.2,<4.2.4|>=4.3,<4.3.3|>=4.4,<4.4.3|>=4.5,<4.5.1|>=4.6,<4.6.4",
                 "symbiote/silverstripe-versionedfiles": "<=2.0.3",
+                "symfont/process": ">=0,<4",
                 "symfony/cache": ">=3.1,<3.4.35|>=4,<4.2.12|>=4.3,<4.3.8",
                 "symfony/dependency-injection": ">=2,<2.0.17|>=2.7,<2.7.51|>=2.8,<2.8.50|>=3,<3.4.26|>=4,<4.1.12|>=4.2,<4.2.7",
                 "symfony/error-handler": ">=4.4,<4.4.4|>=5,<5.0.4",
@@ -3783,6 +3822,7 @@
                 "theonedemon/phpwhois": "<=4.2.5",
                 "titon/framework": ">=0,<9.9.99",
                 "topthink/think": "<=6.0.9",
+                "topthink/thinkphp": "<=3.2.3",
                 "tribalsystems/zenario": "<8.8.53370",
                 "truckersmp/phpwhois": "<=4.3.1",
                 "twig/twig": "<1.38|>=2,<2.7",
@@ -3801,6 +3841,7 @@
                 "verot/class.upload.php": "<=1.0.3|>=2,<=2.0.4",
                 "vrana/adminer": "<4.7.9",
                 "wallabag/tcpdf": "<6.2.22",
+                "web-auth/webauthn-framework": ">=3.3,<3.3.4",
                 "webcoast/deferred-image-processing": "<1.0.2",
                 "wikimedia/parsoid": "<0.12.2",
                 "willdurand/js-translation-bundle": "<2.1.1",
@@ -3816,7 +3857,7 @@
                 "yiisoft/yii2-jui": "<2.0.4",
                 "yiisoft/yii2-redis": "<2.0.8",
                 "yoast-seo-for-typo3/yoast_seo": "<7.2.3",
-                "yourls/yourls": "<=1.8.1",
+                "yourls/yourls": "<=1.8.2",
                 "zendesk/zendesk_api_client_php": "<2.2.11",
                 "zendframework/zend-cache": ">=2.4,<2.4.8|>=2.5,<2.5.3",
                 "zendframework/zend-captcha": ">=2,<2.4.9|>=2.5,<2.5.2",
@@ -3877,20 +3918,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-09-09T17:11:22+00:00"
+            "time": "2021-09-30T18:03:50+00:00"
         },
         {
             "name": "twig/twig",
-            "version": "v3.3.2",
+            "version": "v3.3.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "21578f00e83d4a82ecfa3d50752b609f13de6790"
+                "reference": "a27fa056df8a6384316288ca8b0fa3a35fdeb569"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/21578f00e83d4a82ecfa3d50752b609f13de6790",
-                "reference": "21578f00e83d4a82ecfa3d50752b609f13de6790",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/a27fa056df8a6384316288ca8b0fa3a35fdeb569",
+                "reference": "a27fa056df8a6384316288ca8b0fa3a35fdeb569",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -3906,7 +3947,7 @@
             },
             "require-dev": {
                 "psr/container": "^1.0",
-                "symfony/phpunit-bridge": "^4.4.9|^5.0.9"
+                "symfony/phpunit-bridge": "^4.4.9|^5.0.9|^6.0"
             },
             "type": "library",
             "extra": {
@@ -3947,7 +3988,7 @@
             ],
             "support": {
                 "issues": "https://github.com/twigphp/Twig/issues",
-                "source": "https://github.com/twigphp/Twig/tree/v3.3.2"
+                "source": "https://github.com/twigphp/Twig/tree/v3.3.3"
             },
             "funding": [
                 {
@@ -3959,7 +4000,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-05-16T12:14:13+00:00"
+            "time": "2021-09-17T08:44:23+00:00"
         },
         {
             "name": "wenbinye/tars-gen",
