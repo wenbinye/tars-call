@@ -19,6 +19,7 @@ use kuiper\swoole\Application;
 use kuiper\tars\annotation\TarsClient;
 use kuiper\tars\client\TarsProxyFactory;
 use kuiper\tars\client\TarsRequest;
+use kuiper\tars\integration\QueryFServant;
 use kuiper\tars\server\servant\AdminServant;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\Console\Command\Command;
@@ -47,6 +48,7 @@ class TarsCallCommand extends Command
         $this->setName("tars:call");
         $this->addOption("data", "d", InputOption::VALUE_REQUIRED, "Data file");
         $this->addOption("check", "c", InputOption::VALUE_NONE, "Do health check");
+        $this->addOption("resolve", null, InputOption::VALUE_NONE, "Do service resolve");
         $this->addOption("address", "a", InputOption::VALUE_REQUIRED, "server host and port");
         $this->addOption("registry", "r", InputOption::VALUE_REQUIRED, "registry host and port");
         $this->addArgument("server", InputArgument::OPTIONAL, "server name");
@@ -59,6 +61,10 @@ class TarsCallCommand extends Command
         $this->input = $input;
         if ($input->getOption("check")) {
             $this->doHealthCheck($input->getArgument("server"));
+            return 0;
+        }
+        if ($input->getOption("resolve")) {
+            $this->doRegistryQuery($input->getArgument("server"));
             return 0;
         }
         $container = Application::create()->getContainer();
@@ -200,5 +206,17 @@ class TarsCallCommand extends Command
             $data['params'] = $params;
         }
         return $data;
+    }
+
+    private function doRegistryQuery(string $server): void
+    {
+        if (empty($server)) {
+            throw new \InvalidArgumentException("Argument server is required");
+        }
+
+        /** @var QueryFServant $service */
+        $service = TarsProxyFactory::createDefault($this->getRegistryAddress())
+            ->create(QueryFServant::class);
+        echo json_encode($service->findObjectById($server), JSON_PRETTY_PRINT), "\n";
     }
 }
