@@ -5,7 +5,6 @@ namespace wenbinye\tars\call;
 
 
 use kuiper\di\ComponentCollection;
-use kuiper\di\ContainerBuilder;
 use kuiper\helper\Text;
 use kuiper\reflection\ReflectionDocBlockFactoryInterface;
 use kuiper\reflection\ReflectionMethodDocBlockInterface;
@@ -139,7 +138,9 @@ class TarsCallCommand extends Command
             throw new \InvalidArgumentException("Cannot find $servantName");
         }
         $service = TarsProxyFactory::createDefault(...$routes)
-            ->create($servantClass);
+            ->create($servantClass, [
+                'recv_timeout' => 60
+            ]);
         $normalizer = $container->get(NormalizerInterface::class);
         /** @var ReflectionMethodDocBlockInterface $docReader */
         $docReader = $container->get(ReflectionDocBlockFactoryInterface::class)
