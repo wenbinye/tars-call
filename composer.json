@@ -13,15 +13,22 @@
     "require": {
         "php": ">=7.2",
         "ext-json": "*",
-        "kuiper/tars": "^0.6"
+        "kuiper/tars": "^0.6",
+        "symfony/filesystem": "^5.3",
+        "wenbinye/tars-gen": "^0.5"
     },
     "require-dev": {
-        "roave/security-advisories": "dev-master",
-        "wenbinye/tars-gen": "^0.4"
+        "phpunit/phpunit": "^9.5",
+        "roave/security-advisories": "dev-latest"
     },
     "autoload": {
         "psr-4": {
             "wenbinye\\tars\\call\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "wenbinye\\tars\\call\\": "tests/"
         }
     },
     "scripts": {

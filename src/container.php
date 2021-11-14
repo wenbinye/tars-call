@@ -21,5 +21,6 @@ return [
         'kuiper\\swoole\\config\\DiactorosHttpMessageFactoryConfiguration',
         'kuiper\\tars\\config\\TarsClientConfiguration',
         'kuiper\\cache\\CacheConfiguration',
+        'wenbinye\\tars\\call\\TarsCallConfiguration'
     ]
 ];

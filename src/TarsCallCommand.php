@@ -4,23 +4,11 @@
 namespace wenbinye\tars\call;
 
 
-use kuiper\di\ComponentCollection;
 use kuiper\helper\Text;
-use kuiper\reflection\ReflectionDocBlockFactoryInterface;
-use kuiper\reflection\ReflectionMethodDocBlockInterface;
-use kuiper\rpc\client\RpcExecutor;
-use kuiper\rpc\MiddlewareInterface;
-use kuiper\rpc\RpcRequestHandlerInterface;
-use kuiper\rpc\RpcRequestInterface;
-use kuiper\rpc\RpcResponseInterface;
-use kuiper\serializer\NormalizerInterface;
 use kuiper\swoole\Application;
-use kuiper\tars\annotation\TarsClient;
 use kuiper\tars\client\TarsProxyFactory;
-use kuiper\tars\client\TarsRequest;
 use kuiper\tars\integration\QueryFServant;
 use kuiper\tars\server\servant\AdminServant;
-use Psr\Container\ContainerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -70,18 +58,32 @@ class TarsCallCommand extends Command
 
         if ($input->getOption("data")) {
             $data = $this->getDataParams($input->getOption('data'));
-            $this->doCall($container, $data);
+            $context = new TarsCallContext(
+                $data['service'],
+                $data['method'],
+                $data['params'],
+                $data['request_context'] ?? [],
+                $data['request_status'] ?? []
+            );
         } else {
             $servant = $input->getArgument("server");
             $pos = strrpos($servant, '.');
             $params = json_decode($input->getArgument('params'), true);
-            $data = [
-                'servant' => substr($servant, 0, $pos),
-                'method' => substr($servant, $pos + 1),
-                'params' => $params
-            ];
-            $this->doCall($container, $data);
+            $context = new TarsCallContext(
+                substr($servant, 0, $pos),
+                substr($servant, $pos + 1),
+                $params,
+                $data['request_context'] ?? [],
+                $data['request_status'] ?? []
+            );
         }
+        $context->setRegistry($this->getRegistryAddress());
+        $address = $this->input->getOption("address") ?? $data['server_addr'] ?? null;
+        if (isset($address)) {
+            $context->setAddress($address);
+        }
+        echo json_encode($container->get(TarsCaller::class)->call($context),
+            JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
 
         return 0;
     }
@@ -113,75 +115,13 @@ class TarsCallCommand extends Command
         }
     }
 
-    private function doCall(ContainerInterface $container, array $data): void
-    {
-        $servantName = $data['servant'] ?? $data['service'];
-        $parts = explode('.', $servantName);
-        if (count($parts) !== 3) {
-            throw new \InvalidArgumentException("servant '$servantName' 不正确，必须是 app.server.servantObj 形式");
-        }
-        $routes = [$this->getRegistryAddress()];
-        $address = $this->input->getOption("address") ?? $data['server_addr'] ?? null;
-        if ($address) {
-            [$host, $port] = explode(":", $address);
-            $routes[] = $servantName . "@tcp -h $host -p $port";
-        }
-        $servantClass = null;
-        foreach (ComponentCollection::getAnnotations(TarsClient::class) as $annotation) {
-            /** @var TarsClient $annotation */
-            if ($annotation->service === $servantName) {
-                $servantClass = $annotation->getTargetClass();
-                break;
-            }
-        }
-        if (!$servantClass) {
-            throw new \InvalidArgumentException("Cannot find $servantName");
-        }
-        $service = TarsProxyFactory::createDefault(...$routes)
-            ->create($servantClass, [
-                'recv_timeout' => 60
-            ]);
-        $normalizer = $container->get(NormalizerInterface::class);
-        /** @var ReflectionMethodDocBlockInterface $docReader */
-        $docReader = $container->get(ReflectionDocBlockFactoryInterface::class)
-            ->createMethodDocBlock(new \ReflectionMethod($servantClass, $data['method']));
-        $params = [];
-        $paramNames = array_keys($docReader->getParameterTypes());
-        foreach (array_values($docReader->getParameterTypes()) as $i => $type) {
-            $params[] = $normalizer->denormalize($data['params'][$i] ?? $data['params'][$paramNames[$i]], $type);
-        }
-        if (isset($data['request_status']) || isset($data['request_context'])) {
-            $executor = RpcExecutor::create($service, $data['method'], $params);
-            $middleware = new class implements MiddlewareInterface {
-                public $data;
-
-                public function process(RpcRequestInterface $request, RpcRequestHandlerInterface $handler): RpcResponseInterface
-                {
-                    /** @var TarsRequest $request */
-                    if (isset($this->data['request_context'])) {
-                        $request->setContext($this->data['request_context']);
-                    }
-                    if (isset($this->data['request_status'])) {
-                        $request->setStatus($this->data['request_status']);
-                    }
-                    return $handler->handle($request);
-                }
-            };
-            $middleware->data = $data;
-            $ret = $executor->addMiddleware($middleware)->execute();
-        } else {
-            $ret = call_user_func_array([$service, $data['method']], $params);
-        }
-        echo json_encode($ret, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
-    }
-
     private function getRegistryAddress(): string
     {
         $registry = $this->input->getOption("registry");
         if (Text::isEmpty($registry)) {
             $registry = env('TARS_REGISTRY', '127.0.0.1:17890');
         }
-        [$host, $port]  = explode(':',  $registry);
+        [$host, $port] = explode(':', $registry);
         return "tars.tarsregistry.QueryObj@tcp -h $host -p $port";
     }
 
@@ -205,6 +145,12 @@ class TarsCallCommand extends Command
                 throw new \InvalidArgumentException("extra.params 解析错误");
             }
             $data['params'] = $params;
+        }
+        if (!isset($data['service'])) {
+            $data['service'] = $data['servant'];
+        }
+        if (!isset($data['service'], $data['method'], $data['params'])) {
+            throw new \InvalidArgumentException("service, method, params 不能为空");
         }
         return $data;
     }
