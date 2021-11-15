@@ -49,7 +49,7 @@ class TarsCaller
         $this->tarsNormalizer = $tarsNormalizer;
     }
 
-    public function call(TarsCallContext $context): array
+    public function call(TarsCallContext $context)
     {
         $routes = $this->prepareServiceEndpoints($context);
         $servantClass = $this->tarsServantResolver->withRoutes($routes)->resolve($context->getServant());

@@ -10,11 +10,13 @@ use kuiper\helper\Text;
 use kuiper\reflection\ReflectionFileFactoryInterface;
 use kuiper\reflection\ReflectionNamespace;
 use kuiper\rpc\exception\ConnectionException;
+use kuiper\rpc\servicediscovery\InMemoryCache;
 use kuiper\tars\annotation\TarsClient;
 use kuiper\tars\client\TarsProxyFactory;
 use kuiper\tars\server\servant\AdminServant;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
+use Psr\SimpleCache\CacheInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use tars\FileGenerateStrategy;
 use tars\GeneratorConfig;
@@ -56,9 +58,16 @@ class TarsServantResolver implements LoggerAwareInterface
     private $annotationReader;
 
     /**
+     * @var CacheInterface
+     */
+    private $cache;
+
+    /**
      * TarsServantResolver constructor.
      * @param Environment $twig
      * @param ClassLoader $classLoader
+     * @param AnnotationReaderInterface $annotationReader
+     * @param ReflectionFileFactoryInterface $reflectionFileFactory
      */
     public function __construct(Environment $twig, ClassLoader $classLoader, AnnotationReaderInterface $annotationReader, ReflectionFileFactoryInterface $reflectionFileFactory)
     {
@@ -66,6 +75,7 @@ class TarsServantResolver implements LoggerAwareInterface
         $this->classLoader = $classLoader;
         $this->reflectionFileFactory = $reflectionFileFactory;
         $this->annotationReader = $annotationReader;
+        $this->cache = new InMemoryCache();
     }
 
     public function withRoutes(array $routes): self
@@ -86,9 +96,15 @@ class TarsServantResolver implements LoggerAwareInterface
     private function evictCache(string $app, string $server): bool
     {
         try {
-            $service = $this->createAdminServant($app, $server);
+            $cacheKey = "tars_files.$app.$server";
+            $tarsFiles = $this->cache->get($cacheKey);
+            if ($tarsFiles === null) {
+                $service = $this->createAdminServant($app, $server);
+                $tarsFiles = $service->getTarsFiles();
+                $this->cache->set($cacheKey, $tarsFiles);
+            }
             $cached = true;
-            foreach ($service->getTarsFiles() as $tarsFile) {
+            foreach ($tarsFiles as $tarsFile) {
                 if (!is_dir($this->classLoader->getPath($app, $server, $tarsFile->md5))) {
                     $cached = false;
                     break;
@@ -98,7 +114,7 @@ class TarsServantResolver implements LoggerAwareInterface
                 $this->scan($app, $server);
             } else {
                 foreach (self::$SERVANTS as $name => $class) {
-                    if (Text::startsWith($name, "$app.$server")) {
+                    if (Text::startsWith($name, "$app.$server.")) {
                         unset(self::$SERVANTS[$name]);
                     }
                 }
@@ -151,6 +167,7 @@ class TarsServantResolver implements LoggerAwareInterface
             $context = new TarsGeneratorContext($generatorStrategy, false, []);
             $generator = new TarsGenerator($context->withFile($file));
             $generator->generate();
+            unlink($file);
         }
         $fs = new Filesystem();
         $fs->remove(array_map(static function (string $name) use ($dir) {
@@ -178,22 +195,22 @@ class TarsServantResolver implements LoggerAwareInterface
     public function resolve(string $servant): ?string
     {
         $parts = explode(".", $servant);
-        if (count($parts) === 3) {
-            [$app, $server, $adapter] = $parts;
-            if ($adapter === 'AdminObj') {
-                return AdminServant::class;
-            }
-            $connected = false;
-            if ($app !== 'tars') {
-                $connected = $this->evictCache($app, $server);
-            }
-            if ($connected && !isset(self::$SERVANTS[$servant])) {
-                $this->generate($app, $server);
-            }
-
-            return self::$SERVANTS[$servant] ?? null;
+        if (count($parts) !== 3) {
+            throw new \InvalidArgumentException("Invalid servant name '$servant'");
         }
-        throw new \InvalidArgumentException("Invalid servant name '$servant'");
+        [$app, $server, $adapter] = $parts;
+        if ($adapter === 'AdminObj') {
+            return AdminServant::class;
+        }
+        $connected = false;
+        if ($app !== 'tars') {
+            $connected = $this->evictCache($app, $server);
+        }
+        if ($connected && !isset(self::$SERVANTS[$servant])) {
+            $this->generate($app, $server);
+        }
+
+        return self::$SERVANTS[$servant] ?? null;
     }
 
     /**
