@@ -164,7 +164,7 @@ class TarsNormalizer
         $ret = new $class;
         foreach ($type->getFields() as $field) {
             if (isset($data[$field->getName()])) {
-                $ret->{$field->getName()} = $this->denormalize($field->getType(), $data[$field->getName()]);
+                $ret->{$field->getName()} = $this->denormalize($data[$field->getName()], $field->getType());
             }
         }
         return $ret;
