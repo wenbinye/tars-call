@@ -109,9 +109,7 @@ class TarsCaller
             $routes[] = $context->getRegistry();
         }
         if (Text::isNotEmpty($context->getAddress())) {
-            [$app, $server, $adapter] = explode(".", $context->getServant());
             [$host, $port] = explode(":", $context->getAddress());
-            $routes[] = sprintf("%s.%s.AdminObj@tcp -h %s -p %s", $app, $server, $host, $port);
             $routes[] = sprintf("%s@tcp -h %s -p %s", $context->getServant(), $host, $port);
         }
         return $routes;
