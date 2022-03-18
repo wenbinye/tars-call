@@ -5,9 +5,7 @@ namespace wenbinye\tars\call;
 
 
 use kuiper\annotations\AnnotationReaderInterface;
-use kuiper\helper\Arrays;
 use kuiper\helper\Text;
-use kuiper\reflection\ReflectionDocBlockFactoryInterface;
 use kuiper\rpc\client\RpcExecutor;
 use kuiper\tars\annotation\TarsParameter;
 use kuiper\tars\annotation\TarsReturnType;
@@ -36,6 +34,11 @@ class TarsCaller
     private $annotationReader;
 
     /**
+     * @var array
+     */
+    private $services;
+
+    /**
      * TarsCaller constructor.
      * @param TarsServantResolver $tarsServantResolver
      * @param AnnotationReaderInterface $annotationReader
@@ -51,16 +54,7 @@ class TarsCaller
 
     public function call(TarsCallContext $context)
     {
-        $routes = $this->prepareServiceEndpoints($context);
-        $servantClass = $this->tarsServantResolver->withRoutes($routes)->resolve($context->getServant());
-        if (!$servantClass) {
-            throw new \InvalidArgumentException("Cannot find {$context->getServant()}");
-        }
-        $service = TarsProxyFactory::createDefault(...$routes)
-            ->create($servantClass, [
-                'recv_timeout' => 60,
-                'service' => $context->getServant()
-            ]);
+        [$servantClass, $service] = $this->createService($context);
         $paramData = $context->getParams();
         $method = new \ReflectionMethod($servantClass, $context->getMethod());
         $paramsIndex = [];
@@ -113,5 +107,28 @@ class TarsCaller
             $routes[] = sprintf("%s@tcp -h %s -p %s", $context->getServant(), $host, $port);
         }
         return $routes;
+    }
+
+    /**
+     * @param TarsCallContext $context
+     * @throws \ReflectionException
+     */
+    protected function createService(TarsCallContext $context): array
+    {
+        $routes = $this->prepareServiceEndpoints($context);
+        $servantClass = $this->tarsServantResolver->withRoutes($routes)->resolve($context->getServant());
+        if (!$servantClass) {
+            throw new \InvalidArgumentException("Cannot find {$context->getServant()}");
+        }
+
+        $key = md5(serialize([$routes, $servantClass, $context->getServant()]));
+        if (!isset($this->services[$key])) {
+            $this->services[$key] = TarsProxyFactory::createDefault(...$routes)
+                ->create($servantClass, [
+                    'recv_timeout' => 60,
+                    'service' => $context->getServant()
+                ]);
+        }
+        return [$servantClass, $this->services[$key]];
     }
 }
