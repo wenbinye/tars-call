@@ -25,6 +25,11 @@ class TarsCaller
     private $tarsNormalizer;
 
     /**
+     * @var TarsProxyFactory
+     */
+    private $tarsProxyFactory;
+
+    /**
      * @var TypeParser
      */
     private $typeParser;
@@ -44,12 +49,17 @@ class TarsCaller
      * @param AnnotationReaderInterface $annotationReader
      * @param TarsNormalizer $tarsNormalizer
      */
-    public function __construct(TarsServantResolver $tarsServantResolver, AnnotationReaderInterface $annotationReader, TarsNormalizer $tarsNormalizer)
+    public function __construct(
+        TarsServantResolver $tarsServantResolver,
+        AnnotationReaderInterface $annotationReader,
+        TarsNormalizer $tarsNormalizer,
+        TarsProxyFactory $tarsProxyFactory)
     {
         $this->tarsServantResolver = $tarsServantResolver;
         $this->typeParser = new TypeParser($annotationReader);
         $this->annotationReader = $annotationReader;
         $this->tarsNormalizer = $tarsNormalizer;
+        $this->tarsProxyFactory = $tarsProxyFactory;
     }
 
     public function call(TarsCallContext $context)
@@ -94,39 +104,22 @@ class TarsCaller
 
     /**
      * @param TarsCallContext $context
-     * @return array
-     */
-    private function prepareServiceEndpoints(TarsCallContext $context): array
-    {
-        $routes = [];
-        if (Text::isNotEmpty($context->getRegistry())) {
-            $routes[] = $context->getRegistry();
-        }
-        if (Text::isNotEmpty($context->getAddress())) {
-            [$host, $port] = explode(":", $context->getAddress());
-            $routes[] = sprintf("%s@tcp -h %s -p %s", $context->getServant(), $host, $port);
-        }
-        return $routes;
-    }
-
-    /**
-     * @param TarsCallContext $context
      * @throws \ReflectionException
      */
     protected function createService(TarsCallContext $context): array
     {
-        $routes = $this->prepareServiceEndpoints($context);
-        $servantClass = $this->tarsServantResolver->withRoutes($routes)->resolve($context->getServant());
+        $servantClass = $this->tarsServantResolver->resolve($context->getServant());
         if (!$servantClass) {
             throw new \InvalidArgumentException("Cannot find {$context->getServant()}");
         }
 
-        $key = md5(serialize([$routes, $servantClass, $context->getServant()]));
+        $key = md5(serialize([$context->getAddress(), $servantClass, $context->getServant()]));
         if (!isset($this->services[$key])) {
-            $this->services[$key] = TarsProxyFactory::createDefault(...$routes)
+            $this->services[$key] = $this->tarsProxyFactory
                 ->create($servantClass, [
                     'recv_timeout' => 60,
-                    'service' => $context->getServant()
+                    'service' => $context->getServant(),
+                    'endpoint' => $context->getAddress()
                 ]);
         }
         return [$servantClass, $this->services[$key]];

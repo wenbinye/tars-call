@@ -34,9 +34,9 @@ class TarsServantResolver implements LoggerAwareInterface
     private static $SERVANTS = [];
 
     /**
-     * @var array
+     * @var TarsProxyFactory
      */
-    private $routes;
+    private $tarsProxyFactory;
 
     /**
      * @var Environment
@@ -69,20 +69,14 @@ class TarsServantResolver implements LoggerAwareInterface
      * @param AnnotationReaderInterface $annotationReader
      * @param ReflectionFileFactoryInterface $reflectionFileFactory
      */
-    public function __construct(Environment $twig, ClassLoader $classLoader, AnnotationReaderInterface $annotationReader, ReflectionFileFactoryInterface $reflectionFileFactory)
+    public function __construct(Environment $twig, ClassLoader $classLoader, AnnotationReaderInterface $annotationReader, ReflectionFileFactoryInterface $reflectionFileFactory, TarsProxyFactory $tarsProxyFactory)
     {
         $this->twig = $twig;
         $this->classLoader = $classLoader;
         $this->reflectionFileFactory = $reflectionFileFactory;
         $this->annotationReader = $annotationReader;
         $this->cache = new InMemoryCache();
-    }
-
-    public function withRoutes(array $routes): self
-    {
-        $new = clone $this;
-        $new->routes = $routes;
-        return $new;
+        $this->tarsProxyFactory = $tarsProxyFactory;
     }
 
     public static function init(): void
@@ -221,7 +215,7 @@ class TarsServantResolver implements LoggerAwareInterface
      */
     private function createAdminServant(string $app, string $server): AdminServant
     {
-        return TarsProxyFactory::createDefault(...$this->routes)
+        return $this->tarsProxyFactory
             ->create(AdminServant::class, [
                 'service' => implode(".", [$app, $server, 'AdminObj'])
             ]);

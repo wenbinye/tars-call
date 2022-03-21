@@ -77,10 +77,11 @@ class TarsCallCommand extends Command
                 $data['request_status'] ?? []
             );
         }
-        $context->setRegistry($this->getRegistryAddress());
+        Application::getInstance()->getConfig()
+            ->set('application.tars.client.locator', $this->getRegistryAddress());
         $address = $this->input->getOption("address") ?? $data['server_addr'] ?? null;
         if (isset($address)) {
-            $context->setAddress($address);
+            $context->setAddress('tcp://'.$address);
         }
         echo json_encode($container->get(TarsCaller::class)->call($context),
             JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
