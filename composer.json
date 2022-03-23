@@ -13,7 +13,7 @@
     "require": {
         "php": ">=7.2",
         "ext-json": "*",
-        "kuiper/tars": "^0.6",
+        "kuiper/tars": "^0.7",
         "symfony/filesystem": "^5.3",
         "wenbinye/tars-gen": "^0.5"
     },
