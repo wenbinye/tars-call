@@ -54,7 +54,7 @@ class TarsCallCommand extends Command
             $this->doRegistryQuery($input->getArgument("server"));
             return 0;
         }
-        $container = Application::create()->getContainer();
+        $app = Application::create();
 
         if ($input->getOption("data")) {
             $data = $this->getDataParams($input->getOption('data'));
@@ -77,8 +77,9 @@ class TarsCallCommand extends Command
                 $data['request_status'] ?? []
             );
         }
-        Application::getInstance()->getConfig()
+        $app->getConfig()
             ->set('application.tars.client.locator', $this->getRegistryAddress());
+        $container = $app->getContainer();
         $address = $this->input->getOption("address") ?? $data['server_addr'] ?? null;
         if (isset($address)) {
             $context->setAddress('tcp://'.$address);
