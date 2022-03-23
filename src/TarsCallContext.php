@@ -31,6 +31,10 @@ class TarsCallContext
      */
     private $address;
     /**
+     * @var array
+     */
+    private $options;
+    /**
      * @var string|null
      */
     private $registry;
@@ -50,6 +54,7 @@ class TarsCallContext
         $this->params = $params;
         $this->context = $context;
         $this->statuses = $statuses;
+        $this->options = [];
     }
 
     /**
@@ -106,6 +111,22 @@ class TarsCallContext
     public function setAddress(?string $address): void
     {
         $this->address = $address;
+    }
+
+    /**
+     * @return array
+     */
+    public function getOptions(): array
+    {
+        return $this->options;
+    }
+
+    /**
+     * @param array $options
+     */
+    public function setOptions(array $options): void
+    {
+        $this->options = $options;
     }
 
     /**

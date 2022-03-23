@@ -116,11 +116,10 @@ class TarsCaller
         $key = md5(serialize([$context->getAddress(), $servantClass, $context->getServant()]));
         if (!isset($this->services[$key])) {
             $this->services[$key] = $this->tarsProxyFactory
-                ->create($servantClass, [
-                    'recv_timeout' => 60,
+                ->create($servantClass, array_merge($context->getOptions(), [
                     'service' => $context->getServant(),
                     'endpoint' => $context->getAddress()
-                ]);
+                ]));
         }
         return [$servantClass, $this->services[$key]];
     }
