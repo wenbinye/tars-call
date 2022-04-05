@@ -14,6 +14,7 @@
         "php": ">=7.2",
         "ext-json": "*",
         "kuiper/tars": "^0.7",
+        "pear/net_dns2": "^1.5",
         "symfony/filesystem": "^5.3",
         "wenbinye/tars-gen": "^0.5"
     },

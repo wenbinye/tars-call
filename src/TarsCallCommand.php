@@ -77,8 +77,11 @@ class TarsCallCommand extends Command
                 $data['request_status'] ?? []
             );
         }
-        $app->getConfig()
-            ->set('application.tars.client.locator', $this->getRegistryAddress());
+        $registry = $this->getRegistryAddress();
+        if ($registry !== null) {
+            $app->getConfig()->set('application.tars.client.locator', $registry);
+        }
+        $app->getConfig()->set('application.client.service_discovery.enable_dns', true);
         $container = $app->getContainer();
         $address = $this->input->getOption("address") ?? $data['server_addr'] ?? null;
         if (isset($address)) {
@@ -117,11 +120,14 @@ class TarsCallCommand extends Command
         }
     }
 
-    private function getRegistryAddress(): string
+    private function getRegistryAddress(): ?string
     {
         $registry = $this->input->getOption("registry");
         if (Text::isEmpty($registry)) {
-            $registry = env('TARS_REGISTRY', '127.0.0.1:17890');
+            $registry = env('TARS_REGISTRY');
+            if (Text::isEmpty($registry)) {
+                return null;
+            }
         }
         [$host, $port] = explode(':', $registry);
         return "tars.tarsregistry.QueryObj@tcp -h $host -p $port";
@@ -162,9 +168,13 @@ class TarsCallCommand extends Command
         if (empty($server)) {
             throw new \InvalidArgumentException("Argument server is required");
         }
+        $registry = $this->getRegistryAddress();
+        if ($registry === null) {
+            throw new \InvalidArgumentException("Registry address not found");
+        }
 
         /** @var QueryFServant $service */
-        $service = TarsProxyFactory::createDefault($this->getRegistryAddress())
+        $service = TarsProxyFactory::createDefault($registry)
             ->create(QueryFServant::class);
         echo json_encode($service->findObjectById($server), JSON_PRETTY_PRINT), "\n";
     }
